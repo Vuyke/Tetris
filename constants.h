@@ -7,7 +7,7 @@ const int N = 15, M = 10, scoreGap = 500, scorePoints = 80, scoreBonus = 20, pie
 const float sz = 45.f, ofX = 50.f, ofY = 320.f, scoreX = ofY + (N - 2) * sz, scoreY = (N - 2) * sz, timeCoef = 0.9;
 const float nextOfX = 100, nextOfY = ofY + (N - 2) * sz;
 float TIME = 750;
-int score = 0, pocX, pocY, level = 1, pausedMilli = 0, MOD = 1e9 + 7, POW = 3;
+int score = 0, pocX, pocY, downX, downY, level = 1, pausedMilli = 0, MOD = 1e9 + 7, POW = 3;
 vector<vector<sf::RectangleShape>> squares(N, vector<sf::RectangleShape>(M));
 vector<sf::RectangleShape> nextPieceGUI;
 vector<string> highScores;
@@ -78,4 +78,4 @@ struct Piece {
 };
 
 std::list<Piece> pieces;
-Piece piece, nextPiece;
+Piece piece, nextPiece, downPiece;

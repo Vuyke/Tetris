@@ -83,39 +83,6 @@ void rotatePiece(Piece& p) {
     }
 }
 
-void editPiece(Piece& piece, sf::Color color) {
-    int n = piece.v.size();
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            if(piece.v[i][j]) {
-                squares[i + pocX][j + pocY].setFillColor(color);
-            }
-        }
-    }
-}
-
-void setPiece(Piece& piece) {
-    editPiece(piece, piece.color);
-}
-
-void erasePiece(Piece& piece) {
-    editPiece(piece, sf::Color::Black);
-}
-
-void startPiece(Piece& piece) {
-    int n = piece.v.size();
-    int startJ = (M - 1 >> 1) - (n - 1 >> 1);
-    pocX = 0, pocY = startJ;
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            if(piece.v[i][j] && squares[i + pocX][j + pocY].getFillColor() != sf::Color::Black) {
-                lost = true;
-            }
-        }
-    }
-    setPiece(piece);
-}
-
 bool checkMoveUtil(Piece& piece, pi x) {
     int n = piece.v.size();
     for(int i = 0; i < n; i++) {
@@ -138,6 +105,52 @@ bool checkRight(Piece& piece) {
 
 bool checkLeft(Piece& piece) {
     return checkMoveUtil(piece, {0, -1});
+}
+
+void editPiece(Piece& piece, sf::Color color, int curX = pocX, int curY = pocY) {
+    int n = piece.v.size();
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            if(piece.v[i][j]) {
+                squares[i + curX][j + curY].setFillColor(color);
+            }
+        }
+    }
+}
+
+void initDownPiece(Piece& piece) {
+    int cur = pocX;
+    while(checkDown(piece)) {
+        pocX++;
+    }
+    downX = pocX;
+    downY = pocY;
+    pocX = cur;
+}
+
+void setPiece(Piece& piece) {
+    initDownPiece(piece);
+    editPiece(piece, addColors(piece.color, GRAY, 0.5), downX, downY);
+    editPiece(piece, piece.color);
+}
+
+void erasePiece(Piece& piece) {
+    editPiece(piece, sf::Color::Black, downX, downY);
+    editPiece(piece, sf::Color::Black);
+}
+
+void startPiece(Piece& piece) {
+    int n = piece.v.size();
+    int startJ = (M - 1 >> 1) - (n - 1 >> 1);
+    pocX = 0, pocY = startJ;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            if(piece.v[i][j] && squares[i + pocX][j + pocY].getFillColor() != sf::Color::Black) {
+                lost = true;
+            }
+        }
+    }
+    setPiece(piece);
 }
 
 void updatePiece() {

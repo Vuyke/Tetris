@@ -79,6 +79,17 @@ void setnextPieceGUI() {
     }
 }
 
+sf::Color reduceOpacity(sf::Color& c) {
+    return sf::Color(c.r, c.g, c.b, 128);
+}
+
+sf::Color addColors(sf::Color c1, sf::Color c2, double k) {
+    if(k < 0) k = 0;
+    if(k > 1) k = 1;
+    double k2 = 1 - k;
+    return sf::Color(c1.r * k + c2.r * k2, c1.g * k + c2.g * k2, c1.b * k + c2.b * k2, c1.a * k + c2.a * k2);
+}
+
 int calc() {
     long long res = 0;
     int akum = POW * POW * POW * POW * POW;
