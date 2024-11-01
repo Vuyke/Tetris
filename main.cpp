@@ -155,16 +155,16 @@ void gameScreen(sf::RenderWindow& window) {
                 }
                 else if(paused)
                     continue;
-                else if(event.key.code == sf::Keyboard::Up && checkRotate(piece)) {
+                else if((event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) && checkRotate(piece)) {
                     rotatePiece(piece);
                 }
-                else if(event.key.code == sf::Keyboard::Left && checkLeft(piece)) {
+                else if((event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) && checkLeft(piece)) {
                     pocY--;
                 }
-                else if(event.key.code == sf::Keyboard::Right && checkRight(piece)) {
+                else if((event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) && checkRight(piece)) {
                     pocY++;
                 }
-                else if(event.key.code == sf::Keyboard::Down && checkDown(piece)) {
+                else if((event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) && checkDown(piece)) {
                     pocX++;
                     clock.restart();
                 }
