@@ -1,8 +1,6 @@
 Personal implementation of game Tetris
 
-
 GAME LOCATION: bin/Release/tetris.exe
-
 
 CONTROLS:
 
@@ -17,6 +15,5 @@ DOWN ARROW / S - go one frame down
 SPACE - hard drop, all the way down
 
 ESC - pause
-
 
 ENJOY!!!
