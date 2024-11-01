@@ -32,15 +32,17 @@ bool check(int x, int y, int A, int B, int C, int D) {
     return checkUtil(x, B, A) && checkUtil(y, D, C);
 }
 
+bool isEmpty(int i, int j) {
+    return squares[i][j].getFillColor() == BACKGROUND;
+}
+
 bool checkSpotUtil(Piece& p, int i, int j) {
-    return check(i + pocX, j + pocY) && ((check(i, j, p.v.size(), p.v.size()) && p.v[i][j])
-                                         || squares[i + pocX][j + pocY].getFillColor() == sf::Color::Black);
+    return check(i + pocX, j + pocY) && isEmpty(i + pocX, j + pocY);
 }
 
 bool checkRotateUtil(Piece& p, int i, int j) {
     if(!checkUtil(i + pocX, N)) return false;
-    return !checkUtil(j + pocY, M) || ((check(i, j, p.v.size(), p.v.size()) && p.v[i][j])
-                                         || squares[i + pocX][j + pocY].getFillColor() == sf::Color::Black);
+    return !checkUtil(j + pocY, M) ||  isEmpty(i + pocX, j + pocY);
 }
 
 bool checkRotate(Piece& p) {
@@ -130,13 +132,13 @@ void initDownPiece(Piece& piece) {
 
 void setPiece(Piece& piece) {
     initDownPiece(piece);
-    editPiece(piece, addColors(piece.color, GRAY, 0.5), downX, downY);
+    editPiece(piece, addColors(piece.color, BACKGROUND, 0.6), downX, downY);
     editPiece(piece, piece.color);
 }
 
 void erasePiece(Piece& piece) {
-    editPiece(piece, sf::Color::Black, downX, downY);
-    editPiece(piece, sf::Color::Black);
+    editPiece(piece, BACKGROUND, downX, downY);
+    editPiece(piece, BACKGROUND);
 }
 
 void startPiece(Piece& piece) {
@@ -145,12 +147,11 @@ void startPiece(Piece& piece) {
     pocX = 0, pocY = startJ;
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
-            if(piece.v[i][j] && squares[i + pocX][j + pocY].getFillColor() != sf::Color::Black) {
+            if(piece.v[i][j] && !isEmpty(i + pocX, j + pocY)) {
                 lost = true;
             }
         }
     }
-    setPiece(piece);
 }
 
 void updatePiece() {
@@ -192,7 +193,7 @@ void updateMap(Piece& piece) {
         bool cur = (i >= pocX);
         if(cur) {
             for(int j = 0; j < M; j++) {
-                if(squares[i][j].getFillColor() == sf::Color::Black)
+                if(isEmpty(i, j))
                     cur = false;
             }
         }
@@ -205,21 +206,8 @@ void updateMap(Piece& piece) {
     }
     for(int i = 0; i < cnt; i++) {
         for(int j = 0; j < M; j++) {
-            squares[i][j].setFillColor(sf::Color::Black);
+            squares[i][j].setFillColor(BACKGROUND);
         }
     }
     updateScore(cnt);
-}
-
-void setSquares() {
-    sf::RectangleShape square(sf::Vector2f(sz, sz));
-    square.setOutlineColor(sf::Color::White);
-    square.setFillColor(sf::Color::Black);
-    square.setOutlineThickness(2);
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < M; j++) {
-            square.setPosition(ofY + j * sz, ofX + i * sz);
-            squares[i][j] = square;
-        }
-    }
 }

@@ -68,6 +68,7 @@ void setnextPieceGUI() {
     if(n == 4) curX -= sz - 2;
     sf::RectangleShape squareColor(sf::Vector2f(sz, sz));
     squareColor.setFillColor(nextPiece.color);
+    squareColor.setOutlineColor(BACKGROUND_OUTLINE);
     squareColor.setOutlineThickness(outWidth);
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -88,6 +89,19 @@ sf::Color addColors(sf::Color c1, sf::Color c2, double k) {
     if(k > 1) k = 1;
     double k2 = 1 - k;
     return sf::Color(c1.r * k + c2.r * k2, c1.g * k + c2.g * k2, c1.b * k + c2.b * k2, c1.a * k + c2.a * k2);
+}
+
+void setSquares() {
+    sf::RectangleShape square(sf::Vector2f(sz, sz));
+    square.setOutlineColor(BACKGROUND_OUTLINE);
+    square.setFillColor(BACKGROUND);
+    square.setOutlineThickness(2);
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < M; j++) {
+            square.setPosition(ofY + j * sz, ofX + i * sz);
+            squares[i][j] = square;
+        }
+    }
 }
 
 int calc() {

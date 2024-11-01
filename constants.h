@@ -3,7 +3,7 @@
 using namespace std;
 using pi = pair<int, int>;
 
-const int N = 15, M = 10, scoreGap = 500, scorePoints = 80, scoreBonus = 20, pieceNumber = 7, NEXT = 5;
+const int N = 15, M = 10, scoreGap = 5000, scorePoints = 800, scoreBonus = 200, pieceNumber = 7, NEXT = 5;
 const float sz = 45.f, ofX = 50.f, ofY = 320.f, scoreX = ofY + (N - 2) * sz, scoreY = (N - 2) * sz, timeCoef = 0.9;
 const float nextOfX = 100, nextOfY = ofY + (N - 2) * sz;
 float TIME = 750;
@@ -13,9 +13,10 @@ vector<sf::RectangleShape> nextPieceGUI;
 vector<string> highScores;
 sf::RectangleShape nextSquare;
 bool lost = false, paused = false, one_color = false, hasChanged = false, spaceClicked = false;
-const sf::Color ROSE = sf::Color(220, 26, 255), BLUE = sf::Color(26, 117, 255), YELLOW = sf::Color(255, 220, 0);
-const sf::Color ORANGE = sf::Color(255, 117, 26), LIGHT_BLUE = sf::Color(26, 245, 245), GRAY = sf::Color(60, 60, 60);
+const sf::Color ROSE = sf::Color(220, 26, 255), BLUE = sf::Color(66, 142, 255), YELLOW = sf::Color(235, 200, 0);
+const sf::Color ORANGE = sf::Color(255, 117, 26), LIGHT_BLUE = sf::Color(16, 235, 235), GRAY = sf::Color(60, 60, 60);
 const sf::Color LIGHT_GRAY = sf::Color(220, 220, 220);
+const sf::Color BACKGROUND = sf::Color::Black, BACKGROUND_OUTLINE = LIGHT_GRAY;
 sf::Music music;
 sf::Cursor hand, arrow;
 sf::Text textScore, textLevel, textLose, textNext, textPaused;

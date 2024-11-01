@@ -138,6 +138,7 @@ void gameScreen(sf::RenderWindow& window) {
     sf::Clock clock;
     while (window.isOpen()) {
         sf::Event event;
+        erasePiece(piece);
         while(window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -155,32 +156,22 @@ void gameScreen(sf::RenderWindow& window) {
                 else if(paused)
                     continue;
                 else if(event.key.code == sf::Keyboard::Up && checkRotate(piece)) {
-                    erasePiece(piece);
                     rotatePiece(piece);
-                    setPiece(piece);
                 }
                 else if(event.key.code == sf::Keyboard::Left && checkLeft(piece)) {
-                    erasePiece(piece);
                     pocY--;
-                    setPiece(piece);
                 }
                 else if(event.key.code == sf::Keyboard::Right && checkRight(piece)) {
-                    erasePiece(piece);
                     pocY++;
-                    setPiece(piece);
                 }
                 else if(event.key.code == sf::Keyboard::Down && checkDown(piece)) {
-                    erasePiece(piece);
                     pocX++;
-                    setPiece(piece);
                     clock.restart();
                 }
                 else if(event.key.code == sf::Keyboard::Space) {
-                    erasePiece(piece);
                     while(checkDown(piece)) {
                         pocX++;
                     }
-                    setPiece(piece);
                     spaceClicked = true;
                 }
             }
@@ -188,15 +179,14 @@ void gameScreen(sf::RenderWindow& window) {
         if(!paused) {
             if(checkDown(piece)) {
                 if(clock.getElapsedTime().asMilliseconds() + pausedMilli >= TIME) {
-                    erasePiece(piece);
                     pocX++;
-                    setPiece(piece);
                     clock.restart();
                     pausedMilli = 0;
                 }
             }
             else {
                 if(clock.getElapsedTime().asMilliseconds() + pausedMilli >= 750 || spaceClicked) {
+                    setPiece(piece);
                     updateMap(piece);
                     updatePiece();
                     clock.restart();
@@ -205,6 +195,7 @@ void gameScreen(sf::RenderWindow& window) {
                 }
             }
         }
+        setPiece(piece);
         window.clear();
         window.draw(nextSquare);
         for(auto& x : squares) {
