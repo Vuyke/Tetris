@@ -146,7 +146,7 @@ void gameScreen(sf::RenderWindow& window) {
                 if(event.key.code == sf::Keyboard::Escape) {
                     if(!paused) {
                         paused = true;
-                        pausedMilli = clock.getElapsedTime().asMilliseconds();
+                        pausedMilli += clock.getElapsedTime().asMilliseconds();
                     }
                     else {
                         clock.restart();
