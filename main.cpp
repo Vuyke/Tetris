@@ -18,19 +18,6 @@ void resetGameState() {
     music.setVolume(30), music.play();
 }
 
-void updateMain(sf::RenderWindow& window, sf::RectangleShape& rect, bool p, bool& zoomColor) {
-    if(p) {
-        rect.setFillColor(GRAY);
-        window.setMouseCursor(hand);
-        zoomColor = true;
-    }
-    else if(zoomColor) {
-        rect.setFillColor(sf::Color::Black);
-        window.setMouseCursor(arrow);
-        zoomColor = false;
-    }
-}
-
 void chooseMode(sf::RenderWindow& window);
 
 void playScreen(sf::RenderWindow& window) {

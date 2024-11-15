@@ -78,10 +78,6 @@ void setnextPieceGUI() {
     }
 }
 
-sf::Color reduceOpacity(sf::Color& c) {
-    return sf::Color(c.r, c.g, c.b, 128);
-}
-
 sf::Color addColors(sf::Color c1, sf::Color c2, double k) {
     if(k < 0) k = 0;
     if(k > 1) k = 1;

@@ -5,8 +5,7 @@ void createRandomPermutation() {
     vector<int> v;
     for(int i = 0; i < pieceNumber; i++) {
         v.push_back(i);
-        int randInd = rand() % (i + 1);
-        std::swap(v[i], v[randInd]);
+        std::swap(v[i], v[rand() % (i + 1)]);
     }
     for(int i = 0; i < v.size(); i++) {
         Piece p(v[i]);
@@ -26,10 +25,6 @@ bool checkUtil(int x, int A, int B = 0) {
 
 bool check(int x, int y, int A = N, int B = M) {
     return checkUtil(x, A) && checkUtil(y, B);
-}
-
-bool check(int x, int y, int A, int B, int C, int D) {
-    return checkUtil(x, B, A) && checkUtil(y, D, C);
 }
 
 bool isEmpty(int i, int j) {

@@ -7,7 +7,7 @@ const int N = 15, M = 10, scoreGap = 5000, scorePoints = 800, scoreBonus = 200, 
 const float sz = 45.f, ofX = 50.f, ofY = 320.f, scoreX = ofY + (N - 2) * sz, scoreY = (N - 2) * sz, timeCoef = 0.9;
 const float nextOfX = 100, nextOfY = ofY + (N - 2) * sz;
 float TIME = 750;
-int score = 0, pocX, pocY, downX, downY, level = 1, pausedMilli = 0, MOD = 1e9 + 7, POW = 3;
+int score, pocX, pocY, downX, downY, level = 1, pausedMilli, MOD = 1e9 + 7, POW = 3;
 vector<vector<sf::RectangleShape>> squares(N, vector<sf::RectangleShape>(M));
 vector<sf::RectangleShape> nextPieceGUI;
 vector<string> highScores;
@@ -17,7 +17,6 @@ const sf::Color ROSE = sf::Color(220, 26, 255), BLUE = sf::Color(66, 142, 255), 
 const sf::Color ORANGE = sf::Color(255, 117, 26), LIGHT_BLUE = sf::Color(16, 235, 235), GRAY = sf::Color(60, 60, 60);
 const sf::Color LIGHT_GRAY = sf::Color(220, 220, 220);
 const sf::Color BACKGROUND = sf::Color::Black, BACKGROUND_OUTLINE = LIGHT_GRAY;
-const int windowX = 1400, windowY = 800;
 sf::Music music;
 sf::Cursor hand, arrow;
 sf::Text textScore, textLevel, textLose, textNext, textPaused;
