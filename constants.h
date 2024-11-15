@@ -17,6 +17,7 @@ const sf::Color ROSE = sf::Color(220, 26, 255), BLUE = sf::Color(66, 142, 255), 
 const sf::Color ORANGE = sf::Color(255, 117, 26), LIGHT_BLUE = sf::Color(16, 235, 235), GRAY = sf::Color(60, 60, 60);
 const sf::Color LIGHT_GRAY = sf::Color(220, 220, 220);
 const sf::Color BACKGROUND = sf::Color::Black, BACKGROUND_OUTLINE = LIGHT_GRAY;
+const int windowX = 1400, windowY = 800;
 sf::Music music;
 sf::Cursor hand, arrow;
 sf::Text textScore, textLevel, textLose, textNext, textPaused;

@@ -12,30 +12,37 @@ sf::Font& getFont() {
     return font;
 }
 
+sf::VideoMode windowSize() {
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    return sf::VideoMode(desktop.width * 0.75f, desktop.height * 0.7f);
+}
+
+
 const sf::Font font = getFont();
 
-sf::Text setText(std::string s, int poz1, int poz2, int sz = 40, int p = 0, Color fill = Color(220, 220, 220), Color outline = sf::Color(60, 60, 60)) {
+sf::Text setText(std::string s, int poz1, int poz2, int sz = 40, int thick = 0, Color outline = GRAY, Color fill = LIGHT_GRAY) {
     sf::Text text;
     text.setFont(font);
-    text.setCharacterSize(sz);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(poz1, poz2);
     text.setString(s);
-    if(p) {
-        text.setOutlineColor(outline);
-        text.setOutlineThickness(p);
-        text.setFillColor(fill);
-    }
+    text.setPosition(poz1, poz2);
+    text.setCharacterSize(sz);
+    text.setFillColor(fill);
+    text.setOutlineColor(outline);
+    text.setOutlineThickness(thick);
     return text;
 }
 
 sf::RectangleShape setRectangle(std::pair<int, int> sz, std::pair<int, int> pos, int thick = 0, Color outline = Color::White, Color fill = Color::Black) {
     sf::RectangleShape cur(sf::Vector2f(sz.first, sz.second));
+    cur.setPosition(pos.first, pos.second);
     cur.setFillColor(fill);
     cur.setOutlineColor(outline);
     cur.setOutlineThickness(thick);
-    cur.setPosition(pos.first, pos.second);
     return cur;
+}
+
+sf::Vector2f mousePosition(sf::RenderWindow& window) {
+    return window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }
 
 void setCursor(sf::Cursor& cursor, sf::Cursor::Type c) {
@@ -49,15 +56,6 @@ void setMusic(sf::Music& music) {
         std::cerr << "Error loading music!" << std::endl;
     }
     music.setLoop(true);
-}
-
-void draw(sf::RenderWindow& window, std::vector<sf::Text>& texts, std::vector<sf::RectangleShape>& shapes) {
-    window.clear();
-    for(auto &t : shapes)
-        window.draw(t);
-    for(auto& t: texts)
-        window.draw(t);
-    window.display();
 }
 
 void setnextPieceGUI() {
@@ -112,4 +110,57 @@ int calc() {
         akum /= POW;
     }
     return res;
+}
+
+class Button : public sf::Drawable {
+    public:
+        Button(sf::RectangleShape r, string t, int sz) {
+            rect = r; text = setText(t, 0, 0, sz, 3);
+            color = rect.getFillColor();
+            clicked = color;
+            clicked.r += 60; clicked.g += 60; clicked.b += 60;
+            text.setOrigin(text.getGlobalBounds().getSize() / 2.f + text.getLocalBounds().getPosition());
+            text.setPosition(rect.getPosition() + (rect.getSize() / 2.f));
+        }
+
+        void select() {
+            rect.setFillColor(clicked);
+        }
+
+        void unselect() {
+            rect.setFillColor(color);
+        }
+
+        bool checkInside(int x, int y) {
+            return rect.getGlobalBounds().contains((float)x, (float)y);
+        }
+
+        void updateState(int x, int y) {
+            if(checkInside(x, y))
+                select();
+            else
+                unselect();
+        }
+    private:
+        sf::RectangleShape rect;
+        sf::Text text;
+        sf::Color color;
+        sf::Color clicked;
+
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+            target.draw(rect, states);
+            target.draw(text, states);
+        }
+};
+
+template <typename... Drawable>
+void draw(sf::RenderWindow& window, Drawable&&... vectors) {
+    window.clear();
+    auto drawVector = [&window](auto&& vec) {
+        for(const auto& obj : vec) {
+            window.draw(obj);
+        }
+    };
+    (drawVector(vectors), ...);
+    window.display();
 }

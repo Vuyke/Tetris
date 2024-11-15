@@ -40,89 +40,81 @@ void playScreen(sf::RenderWindow& window) {
     int sz = 50;
     vector<sf::Text> texts;
     vector<sf::RectangleShape> shapes;
+    vector<Button> buttons;
+    buttons.push_back(Button(setRectangle({playSzX, playSzY}, {playX, playY}, 7), "PLAY", 75));
     texts.push_back(setText("HIGHSCORES", highX + 60, highY, 50, 3));
-    texts.push_back(setText("PLAY", playX + 20, playY, 75, 3));
+    shapes.push_back(setRectangle({highSzX, highSzY}, {highX, highY}, 7));
     for(int i = 0; i < highScores.size(); i++) {
         int cur = (highScores[0].size() - highScores[i].size()) * sz / 2;
-        texts.push_back(setText(highScores[i], numX + cur, numY + i * ((highSzY + highY - numY) / 5), sz, 2, LIGHT_GRAY, BLUE));
+        texts.push_back(setText(highScores[i], numX + cur, numY + i * ((highSzY + highY - numY) / 5), sz, 2, BLUE, LIGHT_GRAY));
     }
     if(hasChanged) {
         texts.push_back(setText("TEMPERED WITH SCORES\n\n        SCORES DELETED", highX + 15, numY, 35, 3));
         hasChanged = false;
     }
-    shapes.push_back(setRectangle({highSzX, highSzY}, {highX, highY}, 7));
-    shapes.push_back(setRectangle({playSzX, playSzY}, {playX, playY}, 7));
-    draw(window, texts, shapes);
-    bool zoom = false;
+    draw(window, shapes, texts, buttons);
     while(window.isOpen()) {
         sf::Event event;
         while(window.pollEvent(event)) {
+            sf::Vector2f pos = mousePosition(window);
             if(event.type == sf::Event::Closed) {
                 window.close();
             }
             else if(event.type == sf::Event::MouseMoved) {
-                int x = event.mouseMove.x, y = event.mouseMove.y;
-                updateMain(window, shapes[1], check(x, y, playX, playX + playSzX, playY, playY + playSzY), zoom);
+                buttons[0].updateState(pos.x, pos.y);
             }
             else if(event.type == sf::Event::MouseButtonPressed) {
-                int x = event.mouseButton.x, y = event.mouseButton.y;
-                if(check(x, y, playX, playX + playSzX, playY, playY + playSzY)) {
+                if(buttons[0].checkInside(pos.x, pos.y)) {
                     chooseMode(window);
                     return;
                 }
             }
         }
-        draw(window, texts, shapes);
+        draw(window, shapes, texts, buttons);
     }
 }
 
 void modeLogic(sf::RenderWindow& window) {
-    int pozX = 175, pozY = 400, chooseX = 425, chooseY = 100;
-    int colorfulX = pozX - 40, colorfulY = pozY - 30, colorfulSzX = 410, colorfulSzY = 160;
-    int oneColorX = pozX + 560, oneColorY = pozY - 30, oneColorSzX = 540, oneColorSzY = 160;
-    int exitX = 550, exitY = 610, exitSzX = 210, exitSzY = 80;
+    pi choose = {425, 100}, colorful = {135, 370}, colorfulSz = {410, 160};
+    pi oneColor = {735, 370}, oneColorSz = {540, 160};
+    pi exit = {550, 610}, exitSz = {210, 80};
+    vector<Button> buttons;
     vector<sf::Text> texts;
-    vector<sf::RectangleShape> shapes;
-    shapes.push_back(setRectangle({colorfulSzX, colorfulSzY}, {colorfulX, colorfulY}, 7));
-    shapes.push_back(setRectangle({oneColorSzX, oneColorSzY}, {oneColorX, oneColorY}, 7));
-    shapes.push_back(setRectangle({exitSzX, exitSzY}, {exitX, exitY}, 7));
-    texts.push_back(setText("COLORFUL", colorfulX + 40, colorfulY + 25, 75, 3));
-    texts.push_back(setText("ONE COLORED", oneColorX + 40, oneColorY + 25, 75, 3));
-    texts.push_back(setText("CHOOSE MODE", chooseX, chooseY, 75, 3));
-    texts.push_back(setText("BACK", exitX + 20, exitY - 10, 75, 3));
-    draw(window, texts, shapes);
-    bool zoomColor = false, zoomOne = false, zoomExit = false;
+    texts.push_back(setText("CHOOSE MODE", choose.first, choose.second, 75, 3));
+    buttons.push_back(Button(setRectangle({colorfulSz.first, colorfulSz.second}, {colorful.first, colorful.second}, 7), "COLORFUL", 75));
+    buttons.push_back(Button(setRectangle({oneColorSz.first, oneColorSz.second}, {oneColor.first, oneColor.second}, 7), "MONOCHROME", 75));
+    buttons.push_back(Button(setRectangle({exitSz.first, exitSz.second}, {exit.first, exit.second}, 7), "BACK", 60));
+    draw(window, buttons, texts);
     while(window.isOpen()) {
         sf::Event event;
         while(window.pollEvent(event)) {
+            sf::Vector2f pos = mousePosition(window);
             if(event.type == sf::Event::Closed) {
                 window.close();
             }
             else if(event.type == sf::Event::MouseMoved) {
-                int x = event.mouseMove.x, y = event.mouseMove.y;
-                updateMain(window, shapes[0], check(x, y, colorfulX, colorfulX + colorfulSzX, colorfulY, colorfulY + colorfulSzY), zoomColor);
-                updateMain(window, shapes[1], check(x, y, oneColorX, oneColorX + oneColorSzX, oneColorY, oneColorY + oneColorSzY), zoomOne);
-                updateMain(window, shapes[2], check(x, y, exitX, exitX + exitSzX, exitY, exitY + exitSzY), zoomExit);
+                for(auto& button : buttons) {
+                    button.updateState(pos.x, pos.y);
+                }
             }
             else if(event.type == sf::Event::MouseButtonPressed) {
-                int x = event.mouseButton.x, y = event.mouseButton.y;
                 if(event.mouseButton.button == sf::Mouse::Left) {
-                    if(check(x, y, colorfulX, colorfulX + colorfulSzX, colorfulY, colorfulY + colorfulSzY)) {
+                    if(buttons[0].checkInside(pos.x, pos.y)) {
                         one_color = false;
                         return;
                     }
-                    if(check(x, y, oneColorX, oneColorX + oneColorSzX, oneColorY, oneColorY + oneColorSzY)) {
+                    if(buttons[1].checkInside(pos.x, pos.y)) {
                         one_color = true;
                         return;
                     }
-                    if(check(x, y, exitX, exitX + exitSzX, exitY, exitY + exitSzY)) {
+                    if(buttons[2].checkInside(pos.x, pos.y)) {
                         playScreen(window);
                         return;
                     }
                 }
             }
         }
-        draw(window, texts, shapes);
+        draw(window, buttons, texts);
     }
 }
 
@@ -290,7 +282,7 @@ void init() {
 
 int main() {
     init();
-    sf::RenderWindow window(sf::VideoMode(1400, 800), "TETRIS");
+    sf::RenderWindow window(windowSize(), "TETRIS");
     while(window.isOpen()) {
         playScreen(window);
         music.stop();
