@@ -12,7 +12,7 @@ using namespace std;
 void resetGameState() {
     setSquares();
     resetPiece();
-    score = 0, level = 1, TIME = 800, lost = false;
+    score = 0, level = 1, TIME = 800, lost = false, paused = false, pausedMilli = 0;
     textScore.setString("Score: 0");
     textLevel.setString("Level: 1");
     music.setVolume(30), music.play();
@@ -115,12 +115,24 @@ void gameScreen(sf::RenderWindow& window) {
     resetGameState();
     window.display();
     sf::Clock clock;
+    pi res = {500, 570}, resSz = {300, 100};
+    Button restart(setRectangle({resSz.first, resSz.second}, {res.first, res.second}, 7, LIGHT_GRAY), "RESTART", 75);
     while (window.isOpen()) {
         sf::Event event;
         erasePiece(piece);
         while(window.pollEvent(event)) {
+            sf::Vector2f pos = mousePosition(window);
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if (event.type == sf::Event::MouseMoved && paused) {
+                restart.updateState(pos.x, pos.y);
+            }
+            else if (event.type == sf::Event::MouseButtonPressed && paused) {
+                if(restart.checkInside(pos.x, pos.y)) {
+                    gameScreen(window);
+                    return;
+                }
+            }
             else if (event.type == sf::Event::KeyPressed) {
                 if(event.key.code == sf::Keyboard::Escape) {
                     if(!paused) {
@@ -190,6 +202,7 @@ void gameScreen(sf::RenderWindow& window) {
         window.draw(textNext);
         if(paused) {
             window.draw(textPaused);
+            window.draw(restart);
         }
         if(lost) {
             music.setVolume(15);
@@ -262,7 +275,7 @@ void init() {
     textLevel = setText("Level: 1", scoreX, scoreY);
     textLose = setText("You lost!", 0, 100, 400, 10);
     textNext = setText("NEXT", nextOfY + ((NEXT - 2) * sz) / 2, nextOfX - sz - 10);
-    textPaused = setText("PAUSED", 0, 100, 440, 10);
+    textPaused = setText("PAUSED", 200, 150, 300, 10);
     setMusic(music);
     setCursor(hand, sf::Cursor::Hand), setCursor(arrow, sf::Cursor::Arrow);
 }
