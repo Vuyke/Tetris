@@ -61,9 +61,9 @@ void setMusic(sf::Music& music) {
 void setnextPieceGUI() {
     nextPieceGUI.clear();
     int n = nextPiece.v.size(), outWidth = 2;
-    int curY = nextOfY + (NEXT - n) * sz / 2;
-    int curX = nextOfX + sz;
-    if(n == 4) curX -= sz - 2;
+    int curX = nextOfY + sz;
+    int curY = nextOfX + (NEXT - n) * sz / 2;
+    if(n == 4) curX -= sz / 2;
     sf::RectangleShape squareColor(sf::Vector2f(sz, sz));
     squareColor.setFillColor(nextPiece.color);
     squareColor.setOutlineColor(BACKGROUND_OUTLINE);

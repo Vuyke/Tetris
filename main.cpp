@@ -274,7 +274,7 @@ void init() {
     textScore = setText("Score: 0", scoreX, scoreY + 50);
     textLevel = setText("Level: 1", scoreX, scoreY);
     textLose = setText("You lost!", 0, 100, 400, 10);
-    textNext = setText("NEXT", nextOfY + ((NEXT - 2) * sz) / 2, nextOfX - sz - 10);
+    textNext = setText("NEXT", nextOfX + 57, nextOfY - 60, 50);
     textPaused = setText("PAUSED", 200, 150, 300, 10);
     setMusic(music);
     setCursor(hand, sf::Cursor::Hand), setCursor(arrow, sf::Cursor::Arrow);

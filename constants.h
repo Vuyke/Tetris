@@ -5,7 +5,7 @@ using pi = pair<int, int>;
 
 const int N = 15, M = 10, scoreGap = 5000, scorePoints = 800, scoreBonus = 200, pieceNumber = 7, NEXT = 5;
 const float sz = 45.f, ofX = 50.f, ofY = 320.f, scoreX = ofY + (N - 2) * sz, scoreY = (N - 2) * sz, timeCoef = 0.9;
-const float nextOfX = 100, nextOfY = ofY + (N - 2) * sz;
+const float nextOfX = ofY + (N - 2) * sz, nextOfY = 100;
 float TIME = 750;
 int score, pocX, pocY, downX, downY, level = 1, pausedMilli, MOD = 1e9 + 7, POW = 3;
 vector<vector<sf::RectangleShape>> squares(N, vector<sf::RectangleShape>(M));

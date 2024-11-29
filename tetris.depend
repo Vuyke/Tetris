@@ -420,7 +420,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1731709829 source:c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\main.cpp
+1732902082 source:c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\main.cpp
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
 	<SFML/Audio.hpp>
@@ -431,7 +431,7 @@
 	"gui_util.h"
 	"pieces_util.h"
 
-1731689716 c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\constants.h
+1732900679 c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\constants.h
 	<list>
 
 1728895597 c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\font_data.h
@@ -542,7 +542,7 @@
 
 1728905387 c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\audio_data.h
 
-1731688844 c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\gui_util.h
+1732902108 c:\users\vujov\onedrive\desktop\programiranje\c++\tetris\gui_util.h
 	"constants.h"
 	"font_data.h"
 
